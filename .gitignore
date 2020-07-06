@@ -1,0 +1,15 @@
+/vendor
+/.composer
+/.config
+/coverage
+.phpunit.result.cache
+*.codekit3
+/.idea
+/.vscode
+/.vagrant
+.DS_Store
+.bash_history
+.php_cs.cache
+.cache
+.local
+coverage.xml

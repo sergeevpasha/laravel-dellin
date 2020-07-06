@@ -1,0 +1,17 @@
+version: "2"
+plugins:
+  phpcodesniffer:
+    enabled: true
+exclude_patterns:
+  - src/Libraries/DellinClient.php
+  - src/Providers/DellinServiceProvider.php
+  - src/Http/Requests
+  - src/resources/lang
+  - src/config/
+  - src/Enum/
+  - tests/
+  - vendor/
+checks:
+  method-lines:
+    config:
+      threshold: 65

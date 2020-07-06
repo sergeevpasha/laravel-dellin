@@ -1,0 +1,48 @@
+name: Tests
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  php-tests:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php: ['7.4']
+        laravel: [6.*, 7.*]
+
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
+
+      - name: Install dependencies
+        run: |
+          composer require "laravel/framework:${{ matrix.laravel }}" -n --no-update
+          composer update --prefer-stable --prefer-dist -n --no-suggest
+
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: composer test
+
+      - name: Code Test and Coverage
+        uses: paambaati/codeclimate-action@v2.6.0
+        env:
+          CC_TEST_REPORTER_ID: "${{secrets.CC_TEST_REPORTER_ID}}"
+        with:
+          coverageCommand: composer test-cover
+          coverageLocations: "${{github.workspace}}/coverage.xml:clover"
