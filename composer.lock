@@ -2013,16 +2013,16 @@
         },
         {
             "name": "spatie/data-transfer-object",
-            "version": "2.2.1",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/data-transfer-object.git",
-                "reference": "c88e8442cae2ffe01aaca8f557551f81e18a1967"
+                "reference": "875266070431a0ca50584d07996e76065e31e78e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/c88e8442cae2ffe01aaca8f557551f81e18a1967",
-                "reference": "c88e8442cae2ffe01aaca8f557551f81e18a1967",
+                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/875266070431a0ca50584d07996e76065e31e78e",
+                "reference": "875266070431a0ca50584d07996e76065e31e78e",
                 "shasum": ""
             },
             "require": {
@@ -2032,6 +2032,9 @@
                 "friendsofphp/php-cs-fixer": "^2.16",
                 "larapack/dd": "^1.0",
                 "phpunit/phpunit": "^7.0"
+            },
+            "suggest": {
+                "phpstan/phpstan": "Take advantage of checkUninitializedProperties with \\Spatie\\DataTransferObject\\PHPstan\\PropertiesAreAlwaysInitializedExtension"
             },
             "type": "library",
             "autoload": {
@@ -2063,7 +2066,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2020-05-13T12:53:16+00:00"
+            "time": "2020-08-19T13:28:17+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -5497,6 +5500,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2020-06-27T06:36:25+00:00"
         },
         {
@@ -6339,12 +6343,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "a957a73e3533353451eb9fd62ee58bd0aba2773c"
+                "reference": "913acfe4264dc459e78e7cbaf681f2597f48364c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/a957a73e3533353451eb9fd62ee58bd0aba2773c",
-                "reference": "a957a73e3533353451eb9fd62ee58bd0aba2773c",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/913acfe4264dc459e78e7cbaf681f2597f48364c",
+                "reference": "913acfe4264dc459e78e7cbaf681f2597f48364c",
                 "shasum": ""
             },
             "require": {
@@ -6382,7 +6386,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2020-06-22T05:29:29+00:00"
+            "time": "2020-08-19T23:18:32+00:00"
         },
         {
             "name": "theseer/tokenizer",
