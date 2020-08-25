@@ -5095,20 +5095,20 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.32",
+            "version": "0.12.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d03863f504c8432b3de4d1881f73f6acb8c0e67c"
+                "reference": "f970cab80f0a681019dc669bf8c72905845dadaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d03863f504c8432b3de4d1881f73f6acb8c0e67c",
-                "reference": "d03863f504c8432b3de4d1881f73f6acb8c0e67c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f970cab80f0a681019dc669bf8c72905845dadaa",
+                "reference": "f970cab80f0a681019dc669bf8c72905845dadaa",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1"
+                "php": "^7.1|^8.0"
             },
             "conflict": {
                 "phpstan/phpstan-shim": "*"
@@ -5147,7 +5147,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-01T11:57:52+00:00"
+            "time": "2020-08-24T21:34:53+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5497,6 +5497,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2020-06-27T06:36:25+00:00"
         },
         {
@@ -6339,12 +6340,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "a957a73e3533353451eb9fd62ee58bd0aba2773c"
+                "reference": "d33a6a99ae2f165f1f835ebf1645e471280cbcbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/a957a73e3533353451eb9fd62ee58bd0aba2773c",
-                "reference": "a957a73e3533353451eb9fd62ee58bd0aba2773c",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d33a6a99ae2f165f1f835ebf1645e471280cbcbd",
+                "reference": "d33a6a99ae2f165f1f835ebf1645e471280cbcbd",
                 "shasum": ""
             },
             "require": {
@@ -6382,7 +6383,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2020-06-22T05:29:29+00:00"
+            "time": "2020-08-21T00:01:49+00:00"
         },
         {
             "name": "theseer/tokenizer",
