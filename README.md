@@ -2,7 +2,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/8c6bc9b387b44de574d4/test_coverage)](https://codeclimate.com/github/sergeevpasha/laravel-dellin/test_coverage)
 [![CodeFactor](https://www.codefactor.io/repository/github/sergeevpasha/laravel-dellin/badge)](https://www.codefactor.io/repository/github/sergeevpasha/laravel-dellin)
 [![Generic badge](https://img.shields.io/badge/PHP-^7.4.*-blue.svg)](https://www.php.net)
-[![Generic badge](https://img.shields.io/badge/Laravel-^6.0-red.svg)](https://laravel.com)
+[![Generic badge](https://img.shields.io/badge/Laravel-^7.0-red.svg)](https://laravel.com)
 
 # Laravel Dellin API Wrapper
 Allows you to:
@@ -10,7 +10,7 @@ Allows you to:
 * Find a Street by City ID and query string
 * Find Terminals in the City by City ID
 * Calculate a delivery
-* 
+
 ## Pre-requirements
 You need to get Dellin API key, login and password.
 Key can be obtained at https://dev.dellin.ru/registration
