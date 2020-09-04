@@ -37,7 +37,7 @@ class EnumControllerTest extends TestCase
         $method = $this->controller->deliveryTypes();
         $this->assertInstanceOf(JsonResponse::class, $method);
         $this->assertEqualsCanonicalizing(
-            json_encode(DeliveryType::toArray()),
+            json_encode(DeliveryType::asArray()),
             $method->content(),
             'Expected and actual data are not canonically equals'
         );
@@ -48,7 +48,7 @@ class EnumControllerTest extends TestCase
         $method = $this->controller->paymentTypes();
         $this->assertInstanceOf(JsonResponse::class, $method);
         $this->assertEqualsCanonicalizing(
-            json_encode(PaymentType::toArray()),
+            json_encode(PaymentType::asArray()),
             $method->content(),
             'Expected and actual data are not canonically equals'
         );
@@ -59,7 +59,7 @@ class EnumControllerTest extends TestCase
         $method = $this->controller->requesterRoles();
         $this->assertInstanceOf(JsonResponse::class, $method);
         $this->assertEqualsCanonicalizing(
-            json_encode(RequesterRole::toArray()),
+            json_encode(RequesterRole::asArray()),
             $method->content(),
             'Expected and actual data are not canonically equals'
         );
@@ -70,7 +70,7 @@ class EnumControllerTest extends TestCase
         $method = $this->controller->shippingTypes();
         $this->assertInstanceOf(JsonResponse::class, $method);
         $this->assertEqualsCanonicalizing(
-            json_encode(ShippingType::toArray()),
+            json_encode(ShippingType::asArray()),
             $method->content(),
             'Expected and actual data are not canonically equals'
         );

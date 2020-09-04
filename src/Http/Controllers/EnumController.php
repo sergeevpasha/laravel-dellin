@@ -19,7 +19,7 @@ class EnumController
      */
     public function deliveryTypes(): JsonResponse
     {
-        return response()->json(DeliveryType::toArray());
+        return response()->json(DeliveryType::asArray());
     }
 
     /**
@@ -29,7 +29,7 @@ class EnumController
      */
     public function paymentTypes(): JsonResponse
     {
-        return response()->json(PaymentType::toArray());
+        return response()->json(PaymentType::asArray());
     }
 
     /**
@@ -39,7 +39,7 @@ class EnumController
      */
     public function requesterRoles(): JsonResponse
     {
-        return response()->json(RequesterRole::toArray());
+        return response()->json(RequesterRole::asArray());
     }
 
     /**
@@ -49,6 +49,6 @@ class EnumController
      */
     public function shippingTypes(): JsonResponse
     {
-        return response()->json(ShippingType::toArray());
+        return response()->json(ShippingType::asArray());
     }
 }
