@@ -2,7 +2,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/8c6bc9b387b44de574d4/test_coverage)](https://codeclimate.com/github/sergeevpasha/laravel-dellin/test_coverage)
 [![CodeFactor](https://www.codefactor.io/repository/github/sergeevpasha/laravel-dellin/badge)](https://www.codefactor.io/repository/github/sergeevpasha/laravel-dellin)
 [![Generic badge](https://img.shields.io/badge/PHP-^7.4.*-blue.svg)](https://www.php.net)
-[![Generic badge](https://img.shields.io/badge/Laravel-^7.0-red.svg)](https://laravel.com)
+[![Generic badge](https://img.shields.io/badge/Laravel-^8.0-red.svg)](https://laravel.com)
 
 # Laravel Dellin API Wrapper
 Allows you to:
@@ -27,7 +27,7 @@ This package has a few configuration values:
 'prefix'     => 'dellin',
 'middleware' => ['web']
 </pre>
-If you only need to use DellinClient, you may completely skip this configuration. Otherwise you can use default options and specify some data in .env file:
+If you only need to use DellinClient, you may completely skip this configuration. Otherwise, you can use default options and specify some data in .env file:
 * DELLIN_KEY
 * DELLIN_LOGIN
 * DELLIN_PASSWORD
@@ -46,7 +46,7 @@ Firstly let's initialize our client
 $client = new DellinClient('key');
 /* 
     You may also authorize your user and get a session ID.
-    You may use it in getPrice() method to adjast prices (Authorized users have lower prices)
+    You may use it in getPrice() method to adjust prices (Authorized users have lower prices)
 */
 $session = client->authorize('login', 'password);
 </pre>
@@ -65,7 +65,7 @@ Delivery::fromArray([
     'session_id'             => '12345', // User Session ID, Not required
     'delivery_type'          => '1', // Delivery Type, see available Delivery Types below
     'arrival_shipping_type'  => '1', // Shipping Type, see available Shipping Types below
-    /* Only one of the folowing is required */
+    /* Only one of the following is required */
     'arrival_terminal_id'    => '123'
     'arrival_address_id'     => '123'
     'arrival_street_code'    => '123'
@@ -161,7 +161,7 @@ Delivery::fromArray([
 
 ### Use Case #2
 
-There are some predefined routes, that will be merged with your routes aswell. You may check it by using
-<pre>php artisan routes:list</pre>
-It actually exposing the same methods to the routes, so it should be pretty clear on how to use it.
-For more information on how to use it, please check out `src/` folder
+There are some predefined routes, that will be merged with your routes as well. You may check it by using
+<code>php artisan routes:list</code>
+It actually exposes the same methods to the routes, so it should be pretty clear on how to use it.
+For more information on how to use it, please check out `src/` folder.
