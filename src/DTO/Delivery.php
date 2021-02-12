@@ -4,11 +4,6 @@ declare(strict_types=1);
 
 namespace SergeevPasha\Dellin\DTO;
 
-use SergeevPasha\Dellin\DTO\Cargo;
-use SergeevPasha\Dellin\DTO\Payment;
-use SergeevPasha\Dellin\DTO\Requester;
-use SergeevPasha\Dellin\DTO\ArrivalData;
-use SergeevPasha\Dellin\DTO\DerivalData;
 use SergeevPasha\Dellin\Enum\DeliveryType;
 use Spatie\DataTransferObject\DataTransferObject;
 use SergeevPasha\Dellin\DTO\Collection\AcDocCollection;

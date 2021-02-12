@@ -24,10 +24,9 @@ class RequestBuilder
      */
     public function buildDeliveryType(DeliveryType $deliveryType): array
     {
-        $request = [
+        return [
             'type' => Str::lower($deliveryType->key),
         ];
-        return $request;
     }
 
     /**
@@ -163,11 +162,10 @@ class RequestBuilder
      */
     public function buildRequester(Requester $requester): array
     {
-        $request = [
+        return [
             'role' => Str::lower($requester->role->key),
             'uid'  => $requester->uid,
         ];
-        return $request;
     }
 
     /**
@@ -214,10 +212,9 @@ class RequestBuilder
      */
     public function buildPayment(Payment $payment): array
     {
-        $request = [
+        return [
             'paymentCity' => $payment->paymentCity,
             'type'        => Str::lower($payment->type->key),
         ];
-        return $request;
     }
 }

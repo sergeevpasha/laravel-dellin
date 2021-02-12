@@ -42,7 +42,7 @@ class DerivalData extends DataTransferObject
     /**
      * @var array<mixed>
      */
-    public $time;
+    public array $time;
 
     /**
      * @var array<mixed>

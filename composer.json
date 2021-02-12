@@ -1,7 +1,10 @@
 {
     "name": "sergeevpasha/laravel-dellin",
     "description": "Dellin API wrapper for Laravel",
-    "keywords": ["dellin", "laravel"],
+    "keywords": [
+        "dellin",
+        "laravel"
+    ],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -13,10 +16,13 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": "^7.4",        
+        "php": "^7.4",
+        "laravel/framework": "^8.27.0",
         "guzzlehttp/guzzle": "^7.0",
         "bensampo/laravel-enum": "^3.0",
-        "spatie/data-transfer-object": "^2.5"
+        "spatie/data-transfer-object": "^2.5",
+        "ext-soap": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.2",
@@ -44,7 +50,7 @@
             "dev-master": "1.0.x-dev"
         }
     },
-    "scripts": {    
+    "scripts": {
         "lint": "@php ./vendor/bin/phpcs ./src ./tests --standard=PSR12 -d memory_limit=512M --colors -p",
         "fix": "@php ./vendor/bin/phpcbf ./src ./tests --standard=PSR12 -d memory_limit=512M --colors -p",
         "test-html": "./vendor/bin/phpunit -d memory_limit=512M --coverage-html ./coverage --color=always",

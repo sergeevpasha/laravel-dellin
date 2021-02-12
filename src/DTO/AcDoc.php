@@ -12,7 +12,7 @@ class AcDoc extends DataTransferObject
     /**
      * @var \SergeevPasha\Dellin\Enum\AcDocType
      */
-    public $action;
+    public AcDocType $action;
 
     /**
      * From Value.

@@ -71,7 +71,7 @@ class Cargo extends DataTransferObject
     /**
      * @var \SergeevPasha\Dellin\DTO\Insurance|null
      */
-    public $insurance;
+    public ?Insurance $insurance;
 
     /**
      * From Array.

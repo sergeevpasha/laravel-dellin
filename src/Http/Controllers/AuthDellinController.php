@@ -16,7 +16,7 @@ final class AuthDellinController
      *
      * @var \SergeevPasha\Dellin\Libraries\DellinClient
      */
-    private $client;
+    private DellinClient $client;
 
     public function __construct(DellinClient $client)
     {

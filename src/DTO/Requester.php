@@ -12,7 +12,7 @@ class Requester extends DataTransferObject
     /**
      * @var \SergeevPasha\Dellin\Enum\RequesterRole
      */
-    public $role;
+    public RequesterRole $role;
 
     /**     *
      * https://dev.dellin.ru/api/auth/counteragents/.

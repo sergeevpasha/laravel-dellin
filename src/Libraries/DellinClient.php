@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SergeevPasha\Dellin\Libraries;
 
+use GuzzleHttp\Client as GuzzleClient;
 use SergeevPasha\Dellin\DTO\Delivery;
 use SergeevPasha\Dellin\Helpers\DellinHelper;
 
@@ -70,7 +71,7 @@ class DellinClient
             'json'        => $params,
             'http_errors' => false,
         ];
-        $client = new \GuzzleHttp\Client();
+        $client = new GuzzleClient();
         $response = $client->$method($url, $options);
         return json_decode($response->getBody()->getContents(), true);
     }
@@ -219,7 +220,7 @@ class DellinClient
             'cargo'     => $cargo,
             'payment'   => $payment,
         ];
-        $request = DellinHelper::removeNullValues($data);
-        return $this->request('v2/calculator', $request);
+        $data = DellinHelper::removeNullValues($request);
+        return $this->request('v2/calculator', $data);
     }
 }

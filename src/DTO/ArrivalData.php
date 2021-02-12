@@ -12,7 +12,7 @@ class ArrivalData extends DataTransferObject
     /**
      * @var \SergeevPasha\Dellin\Enum\ShippingType
      */
-    public $variant;
+    public ShippingType $variant;
 
     /**
      * @var string|null

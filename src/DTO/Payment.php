@@ -17,7 +17,7 @@ class Payment extends DataTransferObject
     /**
      * @var \SergeevPasha\Dellin\Enum\PaymentType
      */
-    public $type;
+    public PaymentType $type;
 
     /**
      * From Array.

@@ -22,19 +22,20 @@ class DellinController
      *
      * @var \SergeevPasha\Dellin\Libraries\DellinClient
      */
-    private $client;
+    private DellinClient $client;
 
     public function __construct(DellinClient $client)
     {
         $this->client = $client;
     }
-     
+
     /**
      * Check if required key is isset and fail if not
      *
-     * @param  array<mixed> $data
-     * @param  string $key
-     * @throws Exception
+     * @param array<mixed> $data
+     * @param string|null  $key
+     *
+     * @throws \Exception
      * @return array<mixed>
      */
     public function responseOrFail(array $data, string $key = null): array
@@ -42,7 +43,7 @@ class DellinController
         $response = [];
         if ($key) {
             if (!isset($data[$key])) {
-                throw new Exception();
+                throw new Exception('Missing required parameters or session ID is expired');
             }
             $response['data'] = $data[$key];
         } else {
@@ -55,6 +56,8 @@ class DellinController
      * Query City.
      *
      * @param \SergeevPasha\Dellin\Http\Requests\DellinQueryCityRequest $request
+     *
+     * @throws \Exception
      * @return \Illuminate\Http\JsonResponse
      */
     public function queryCity(DellinQueryCityRequest $request): JsonResponse
@@ -69,6 +72,8 @@ class DellinController
      *
      * @param int                                                      $city
      * @param \SergeevPasha\Dellin\Http\Requests\DellinTerminalRequest $request
+     *
+     * @throws \Exception
      * @return \Illuminate\Http\JsonResponse
      */
     public function getTerminals(int $city, DellinTerminalRequest $request): JsonResponse
@@ -83,6 +88,8 @@ class DellinController
      *
      * @param int                                                         $city
      * @param \SergeevPasha\Dellin\Http\Requests\DellinQueryStreetRequest $request
+     *
+     * @throws \Exception
      * @return \Illuminate\Http\JsonResponse
      */
     public function queryStreet(int $city, DellinQueryStreetRequest $request): JsonResponse
@@ -95,6 +102,7 @@ class DellinController
     /**
      * Get available package types.
      *
+     * @throws \Exception
      * @return \Illuminate\Http\JsonResponse
      */
     public function getAvailablePackages(): JsonResponse
@@ -107,6 +115,7 @@ class DellinController
     /**
      * Get special requirements for your cargo handling.
      *
+     * @throws \Exception
      * @return \Illuminate\Http\JsonResponse
      */
     public function getSpecialRequirements(): JsonResponse
@@ -115,11 +124,13 @@ class DellinController
         $response = $this->responseOrFail($data, 'data');
         return response()->json($response);
     }
-    
+
     /**
-     * Get Counterpaties data
+     * Get Counterparties data
      *
      * @param \SergeevPasha\Dellin\Http\Requests\DellinCounterpartiesRequest $request
+     *
+     * @throws \Exception
      * @return \Illuminate\Http\JsonResponse
      */
     public function getCounterparties(DellinCounterpartiesRequest $request): JsonResponse
@@ -134,6 +145,9 @@ class DellinController
      * Calculate delivery.
      *
      * @param \SergeevPasha\Dellin\Http\Requests\DellinCalculatePriceRequest $request
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     * @throws \Exception
      * @return \Illuminate\Http\JsonResponse
      */
     public function calculateDeliveryPrice(DellinCalculatePriceRequest $request): JsonResponse
