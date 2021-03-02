@@ -1,29 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="vendor/autoload.php"
-         backupGlobals="false"
-         backupStaticAttributes="false"
-         colors="true"
-         verbose="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false">
-    <testsuites>
-        <testsuite name="Dellin Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/</directory>
-            <exclude>
-                <directory suffix=".php">src/enum</directory>
-                <directory suffix=".php">src/Http/Requests</directory>
-                <directory suffix=".php">src/resources/lang</directory>
-                <file>src/Libraries/DellinClient.php</file>
-                <file>src/Providers/DellinServiceProvider.php</file>
-            </exclude>
-        </whitelist>  
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="vendor/autoload.php" backupGlobals="false" backupStaticAttributes="false" colors="true" verbose="true" convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+  <coverage>
+    <include>
+      <directory suffix=".php">src/</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">src/enum</directory>
+      <directory suffix=".php">src/Http/Requests</directory>
+      <directory suffix=".php">src/resources/lang</directory>
+      <file>src/Libraries/DellinClient.php</file>
+      <file>src/Providers/DellinServiceProvider.php</file>
+    </exclude>
+  </coverage>
+  <testsuites>
+    <testsuite name="Dellin Test Suite">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
 </phpunit>

@@ -16,11 +16,12 @@ class DellinClient
      * @var string
      */
     private string $key;
-    
+
     /**
      * Constructor
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return void
      */
     public function __construct(string $key)
@@ -33,46 +34,53 @@ class DellinClient
      *
      * @param string|null $login
      * @param string|null $password
+     *
      * @return array<mixed>
      */
     public function authorize(?string $login = null, ?string $password = null): array
     {
-        $data = $this->request('v2/customers/login', [
-            'login' => $login ?? config('dellin.login'),
-            'password' => $password ?? config('dellin.password'),
-        ]);
+        $data = $this->request(
+            'v2/customers/login',
+            [
+                'login'    => $login ?? config('dellin.login'),
+                'password' => $password ?? config('dellin.password'),
+            ]
+        );
         if (isset($data['sessionID'])) {
-            $session = $this->request('v1/customers/session_info', [
-                'sessionId'    => $data['sessionID'],
-            ]);
-            $data = array_merge($data, $session);
+            $session = $this->request(
+                'v1/customers/session_info',
+                [
+                    'sessionId' => $data['sessionID'],
+                ]
+            );
+            $data    = array_merge($data, $session);
         }
         return $data;
     }
-    
+
     /**
      * Send request to Dellin API.
      *
-     * @param string $path
+     * @param string       $path
      * @param array<mixed> $params
-     * @param string $method
+     * @param string       $method
      *
      * @return array<mixed>
      */
     public function request(string $path, array $params = [], string $method = 'POST'): array
     {
-        $url = "https://api.dellin.ru/$path.json";
+        $url              = "https://api.dellin.ru/$path.json";
         $params['appkey'] = $this->key;
-        $options = [
-            'headers' => [
+        $options          = [
+            'headers'     => [
                 'Accept'       => 'application/json',
                 'Content-Type' => 'application/json',
             ],
             'json'        => $params,
             'http_errors' => false,
         ];
-        $client = new GuzzleClient();
-        $response = $client->$method($url, $options);
+        $client           = new GuzzleClient();
+        $response         = $client->$method($url, $options);
         return json_decode($response->getBody()->getContents(), true);
     }
 
@@ -113,13 +121,17 @@ class DellinClient
      * Find a city by query string.
      *
      * @param string $query
+     *
      * @return array<mixed>
      */
     public function findCity(string $query): array
     {
-        return $this->request('v2/public/kladr', [
-            'q' => $query,
-        ]);
+        return $this->request(
+            'v2/public/kladr',
+            [
+                'q' => $query,
+            ]
+        );
     }
 
     /**
@@ -127,14 +139,18 @@ class DellinClient
      *
      * @param int    $city
      * @param string $query
+     *
      * @return array<mixed>
      */
     public function findCityStreet(int $city, string $query): array
     {
-        return $this->request('v1/public/kladr_street', [
-            'cityID' => $city,
-            'street' => $query,
-        ]);
+        return $this->request(
+            'v1/public/kladr_street',
+            [
+                'cityID' => $city,
+                'street' => $query,
+            ]
+        );
     }
 
     /**
@@ -142,15 +158,19 @@ class DellinClient
      *
      * @param int  $city
      * @param bool $arrival
+     *
      * @return array<mixed>
      */
     public function getCityTerminals(int $city, bool $arrival = true): array
     {
         $direction = $arrival ? 'arrival' : 'derival';
-        return $this->request('v1/public/request_terminals', [
-            'cityID'    => $city,
-            'direction' => $direction,
-        ]);
+        return $this->request(
+            'v1/public/request_terminals',
+            [
+                'cityID'    => $city,
+                'direction' => $direction,
+            ]
+        );
     }
 
     /**
@@ -176,27 +196,32 @@ class DellinClient
     /**
      * Get Counterpaties data
      *
-     * @param  string $session
-     * @param  bool $expanded
+     * @param string $session
+     * @param bool   $expanded
+     *
      * @return array<mixed>
      */
     public function getCounterparties(string $session, bool $expanded = false): array
     {
-        return $this->request('v2/counteragents', [
-            'sessionID' => $session,
-            'fullInfo' => $expanded
-        ]);
+        return $this->request(
+            'v2/counteragents',
+            [
+                'sessionID' => $session,
+                'fullInfo'  => $expanded
+            ]
+        );
     }
 
     /**
      * Get calculated price.
      *
      * @param \SergeevPasha\Dellin\DTO\Delivery $delivery
+     *
      * @return array<mixed>
      */
     public function getPrice(Delivery $delivery): array
     {
-        $builder = new RequestBuilder();
+        $builder         = new RequestBuilder();
         $deliveryRequest = [
             'deliveryType' => $builder->buildDeliveryType($delivery->deliveryType),
             'arrival'      => $builder->buildArrival($delivery->arrival),
@@ -208,19 +233,27 @@ class DellinClient
         if ($delivery->acDocs) {
             $deliveryRequest['accompanyingDocuments'] = $builder->buildAcDocs($delivery->acDocs);
         }
-        $members = [
-            'requester' => $builder->buildRequester($delivery->requester),
-        ];
-        $cargo = $builder->buildCargo($delivery->cargo);
+        $members = [];
+        if ($delivery->requester) {
+            $members = [
+                'members' => [
+                    'requester' => $builder->buildRequester($delivery->requester),
+                ]
+            ];
+        }
+        $cargo   = $builder->buildCargo($delivery->cargo);
         $payment = $builder->buildPayment($delivery->payment);
-        $request = [
-            'sessionID' => $delivery->session,
-            'delivery'  => $deliveryRequest,
-            'members'   => $members,
-            'cargo'     => $cargo,
-            'payment'   => $payment,
-        ];
-        $data = DellinHelper::removeNullValues($request);
+        $request = array_merge(
+            [
+                'sessionID' => $delivery->session,
+                'delivery'  => $deliveryRequest,
+                'members'   => $members,
+                'cargo'     => $cargo,
+                'payment'   => $payment,
+            ],
+            $members
+        );
+        $data    = DellinHelper::removeNullValues($request);
         return $this->request('v2/calculator', $data);
     }
 }

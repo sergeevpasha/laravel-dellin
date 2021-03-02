@@ -15,7 +15,7 @@ class Delivery extends DataTransferObject
      * @var \SergeevPasha\Dellin\Enum\DeliveryType
      */
     public DeliveryType $deliveryType;
-    
+
     /**
      * @var \SergeevPasha\Dellin\DTO\ArrivalData
      */
@@ -37,9 +37,9 @@ class Delivery extends DataTransferObject
     public ?AcDocCollection $acDocs;
 
     /**
-     * @var \SergeevPasha\Dellin\DTO\Requester
+     * @var \SergeevPasha\Dellin\DTO\Requester|null
      */
-    public Requester $requester;
+    public ?Requester $requester;
 
     /**
      * @var \SergeevPasha\Dellin\DTO\Cargo
@@ -50,7 +50,7 @@ class Delivery extends DataTransferObject
      * @var \SergeevPasha\Dellin\DTO\Payment
      */
     public Payment $payment;
-    
+
     /**
      * @var string|null
      */
@@ -73,16 +73,21 @@ class Delivery extends DataTransferObject
             $acDocs[] = AcDoc::fromValue(1);
         }
         $acDocsCollection = !empty($acDocs) ? AcDocCollection::create($acDocs) : null;
-        return new self([
-            'deliveryType' => DeliveryType::fromValue((int) $data['delivery_type']),
-            'arrival'      => ArrivalData::fromArray($data),
-            'derival'      => DerivalData::fromArray($data),
-            'packages'     => isset($data['packages']) ? PackageCollection::fromArray($data) : null,
-            'acDocs'       => $acDocsCollection,
-            'requester'    => Requester::fromArray((int) $data['requester_role'], $data['requester_uid']),
-            'cargo'        => Cargo::fromArray($data),
-            'payment'      => Payment::fromArray($data),
-            'session'      => isset($data['session_id']) ? $data['session_id'] : null,
-        ]);
+        return new self(
+            [
+                'deliveryType' => DeliveryType::fromValue((int) $data['delivery_type']),
+                'arrival'      => ArrivalData::fromArray($data),
+                'derival'      => DerivalData::fromArray($data),
+                'packages'     => isset($data['packages']) ? PackageCollection::fromArray($data) : null,
+                'acDocs'       => $acDocsCollection,
+                'requester'    => isset($data['requester_role']) && isset($data['requester_uid']) ? Requester::fromArray(
+                    (int) $data['requester_role'],
+                    $data['requester_uid']
+                ) : null,
+                'cargo'        => Cargo::fromArray($data),
+                'payment'      => Payment::fromArray($data),
+                'session'      => isset($data['session_id']) ? $data['session_id'] : null,
+            ]
+        );
     }
 }
