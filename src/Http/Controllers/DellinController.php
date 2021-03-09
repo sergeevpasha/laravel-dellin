@@ -62,7 +62,7 @@ class DellinController
      */
     public function queryCity(DellinQueryCityRequest $request): JsonResponse
     {
-        $data = $this->client->findCity($request->query('query'));
+        $data     = $this->client->findCity($request->query('query'));
         $response = $this->responseOrFail($data, 'cities');
         return response()->json($response);
     }
@@ -78,7 +78,7 @@ class DellinController
      */
     public function getTerminals(int $city, DellinTerminalRequest $request): JsonResponse
     {
-        $data = $this->client->getCityTerminals($city, (bool) $request->query('arrival'));
+        $data     = $this->client->getCityTerminals($city, (bool) $request->query('arrival'));
         $response = $this->responseOrFail($data, 'terminals');
         return response()->json($response);
     }
@@ -94,7 +94,7 @@ class DellinController
      */
     public function queryStreet(int $city, DellinQueryStreetRequest $request): JsonResponse
     {
-        $data = $this->client->findCityStreet($city, $request->query('query'));
+        $data     = $this->client->findCityStreet($city, $request->query('query'));
         $response = $this->responseOrFail($data, 'streets');
         return response()->json($response);
     }
@@ -107,7 +107,7 @@ class DellinController
      */
     public function getAvailablePackages(): JsonResponse
     {
-        $data = $this->client->getAvailablePackages();
+        $data     = $this->client->getAvailablePackages();
         $response = $this->responseOrFail($data, 'data');
         return response()->json($response);
     }
@@ -120,7 +120,7 @@ class DellinController
      */
     public function getSpecialRequirements(): JsonResponse
     {
-        $data = $this->client->getSpecialRequirements();
+        $data     = $this->client->getSpecialRequirements();
         $response = $this->responseOrFail($data, 'data');
         return response()->json($response);
     }
@@ -135,8 +135,8 @@ class DellinController
      */
     public function getCounterparties(DellinCounterpartiesRequest $request): JsonResponse
     {
-        $data = $this->client->getCounterparties($request->query('session_id', $request->query('expand')));
-        $data = $this->responseOrFail($data, 'data');
+        $data             = $this->client->getCounterparties($request->query('session_id', $request->query('expand')));
+        $data             = $this->responseOrFail($data, 'data');
         $response['data'] = $data['data']['counteragents'];
         return response()->json($response);
     }
@@ -153,10 +153,14 @@ class DellinController
     public function calculateDeliveryPrice(DellinCalculatePriceRequest $request): JsonResponse
     {
         $data = $this->client->getPrice(Delivery::fromArray($request->all()));
-        if (isset($data['errors'])) {
-            throw ValidationException::withMessages($data['errors']);
+        if (array_key_exists('errors', $data)) {
+            $messages = [];
+            foreach ($data['errors'] as $error) {
+                $messages[$error['code']] = implode(',', $error['fields']) . ' - ' . trim($error['detail'], '.') . '.';
+            }
+            throw ValidationException::withMessages($messages);
         }
         $response = $this->responseOrFail($data, 'data');
-        return response()->json($response);
+        return response()->json(['d3ata' => $response]);
     }
 }
