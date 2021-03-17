@@ -161,6 +161,6 @@ class DellinController
             throw ValidationException::withMessages($messages);
         }
         $response = $this->responseOrFail($data, 'data');
-        return response()->json(['d3ata' => $response]);
+        return response()->json($response);
     }
 }
