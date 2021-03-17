@@ -184,7 +184,11 @@ class DellinControllerTest extends TestCase
         $expectedData = [
             'errors' => [
                 0 => [
-                    'detail' => 'text'
+                    'code' => '10010',
+                    'detail' => 'text',
+                    'fields' => [
+                        'some_field' => 'Some error message'
+                    ]
                 ]
             ]
         ];
@@ -192,6 +196,6 @@ class DellinControllerTest extends TestCase
         $this->app->instance(DellinClient::class, $client);
         $class = $this->app->make(DellinController::class);
         $this->expectException(ValidationException::class);
-        $method = $class->calculateDeliveryPrice($request);
+        $class->calculateDeliveryPrice($request);
     }
 }
