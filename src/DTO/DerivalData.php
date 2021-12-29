@@ -20,9 +20,9 @@ class DerivalData extends DataTransferObject
     public ShippingType $variant;
 
     /**
-     * @var string|null
+     * @var int|null
      */
-    public ?string $terminalID;
+    public ?int $terminalID;
 
     /**
      * @var string|null
