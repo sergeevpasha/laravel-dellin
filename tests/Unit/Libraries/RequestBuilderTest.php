@@ -52,7 +52,7 @@ class RequestBuilderTest extends TestCase
     {
         $data = [
             'arrival_shipping_type'  => '0',
-            'arrival_terminal_id'    => '1',
+            'arrival_terminal_id'    => 1,
             'arrival_address_id'     => '1',
             'arrival_street_code'    => '1',
             'arrival_city_code'      => '1',
@@ -72,7 +72,7 @@ class RequestBuilderTest extends TestCase
         ];
         $response = [
             'variant'    => Str::lower(ShippingType::getKey(0)),
-            'terminalID' => '1',
+            'terminalID' => 1,
             'time'       => [
                 'worktimeStart' => '10:00',
                 'worktimeEnd'   => '10:30',
@@ -110,7 +110,7 @@ class RequestBuilderTest extends TestCase
         $data = [
             'derival_produce_date'   => '2100-10-10',
             'derival_shipping_type'  => '0',
-            'derival_terminal_id'    => '1',
+            'derival_terminal_id'    => 1,
             'derival_address_id'     => '1',
             'derival_street_code'    => '1',
             'derival_city_code'      => '1',
@@ -131,7 +131,7 @@ class RequestBuilderTest extends TestCase
         $response = [
             'produceDate' => '2100-10-10',
             'variant'     => Str::lower(ShippingType::getKey(0)),
-            'terminalID'  => '1',
+            'terminalID'  => 1,
             'time'        => [
                 'worktimeStart' => '10:00',
                 'worktimeEnd'   => '10:30',
