@@ -12,8 +12,10 @@ use SergeevPasha\Dellin\Libraries\DellinClient;
 use SergeevPasha\Dellin\Http\Requests\DellinTerminalRequest;
 use SergeevPasha\Dellin\Http\Requests\DellinQueryCityRequest;
 use SergeevPasha\Dellin\Http\Requests\DellinQueryStreetRequest;
+use SergeevPasha\DPD\Http\Requests\DPDFindByTrackNumberRequest;
 use SergeevPasha\Dellin\Http\Requests\DellinCalculatePriceRequest;
 use SergeevPasha\Dellin\Http\Requests\DellinCounterpartiesRequest;
+use SergeevPasha\DPD\Http\Requests\DellinFindByTrackNumberRequest;
 
 class DellinController
 {
@@ -32,11 +34,11 @@ class DellinController
     /**
      * Check if required key is isset and fail if not
      *
-     * @param array<mixed> $data
+     * @param array $data
      * @param string|null  $key
      *
      * @throws \Exception
-     * @return array<mixed>
+     * @return array
      */
     public function responseOrFail(array $data, string $key = null): array
     {

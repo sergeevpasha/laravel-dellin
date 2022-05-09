@@ -12,7 +12,7 @@ class ValidatePackages implements Rule
      * Determine if the validation rule passes.
      *
      * @param string $attribute
-     * @param array<mixed>|string $value
+     * @param array|string $value
      *
      * @return bool
      */

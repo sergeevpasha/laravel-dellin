@@ -6,6 +6,7 @@ namespace SergeevPasha\Dellin\Libraries;
 
 use GuzzleHttp\Client as GuzzleClient;
 use SergeevPasha\Dellin\DTO\Delivery;
+use SergeevPasha\Dellin\DTO\DellinTrack;
 use SergeevPasha\Dellin\Helpers\DellinHelper;
 
 class DellinClient
@@ -35,7 +36,7 @@ class DellinClient
      * @param string|null $login
      * @param string|null $password
      *
-     * @return array<mixed>
+     * @return array
      */
     public function authorize(?string $login = null, ?string $password = null): array
     {
@@ -61,11 +62,11 @@ class DellinClient
     /**
      * Send request to Dellin API.
      *
-     * @param string       $path
-     * @param array<mixed> $params
-     * @param string       $method
+     * @param string $path
+     * @param array  $params
+     * @param string $method
      *
-     * @return array<mixed>
+     * @return array
      */
     public function request(string $path, array $params = [], string $method = 'POST'): array
     {
@@ -92,7 +93,7 @@ class DellinClient
     public function getCitiesCSV(): ?string
     {
         $data = $this->request('v1/public/cities');
-        return isset($data['url']) ? $data['url'] : null;
+        return $data['url'] ?? null;
     }
 
     /**
@@ -103,7 +104,7 @@ class DellinClient
     public function getPlacesCSV(): ?string
     {
         $data = $this->request('v1/public/places');
-        return isset($data['url']) ? $data['url'] : null;
+        return $data['url'] ?? null;
     }
 
     /**
@@ -114,7 +115,7 @@ class DellinClient
     public function getStreetsCSV(): ?string
     {
         $data = $this->request('v1/public/streets');
-        return isset($data['url']) ? $data['url'] : null;
+        return $data['url'] ?? null;
     }
 
     /**
@@ -122,7 +123,7 @@ class DellinClient
      *
      * @param string $query
      *
-     * @return array<mixed>
+     * @return array
      */
     public function findCity(string $query): array
     {
@@ -135,12 +136,31 @@ class DellinClient
     }
 
     /**
+     * Find track by number
+     *
+     * @param string $trackNumber
+     *
+     * @return \SergeevPasha\Dellin\DTO\DellinTrack
+     */
+    public function findByTrackNumber(string $trackNumber): DellinTrack
+    {
+        $data = $this->request(
+            'v2/public/tracker',
+            [
+                'docid' => $trackNumber,
+            ]
+        );
+
+        return DellinTrack::fromArray($data);
+    }
+
+    /**
      * Find a street by query string and City ID.
      *
      * @param int    $city
      * @param string $query
      *
-     * @return array<mixed>
+     * @return array
      */
     public function findCityStreet(int $city, string $query): array
     {
@@ -159,7 +179,7 @@ class DellinClient
      * @param int  $city
      * @param bool $arrival
      *
-     * @return array<mixed>
+     * @return array
      */
     public function getCityTerminals(int $city, bool $arrival = true): array
     {
@@ -176,7 +196,7 @@ class DellinClient
     /**
      * Get available package types.
      *
-     * @return array<mixed>
+     * @return array
      */
     public function getAvailablePackages(): array
     {
@@ -186,7 +206,7 @@ class DellinClient
     /**
      * Get special requirements for your cargo handling.
      *
-     * @return array<mixed>
+     * @return array
      */
     public function getSpecialRequirements(): array
     {
@@ -194,12 +214,12 @@ class DellinClient
     }
 
     /**
-     * Get Counterpaties data
+     * Get Counterparties data
      *
      * @param string $session
      * @param bool   $expanded
      *
-     * @return array<mixed>
+     * @return array
      */
     public function getCounterparties(string $session, bool $expanded = false): array
     {
@@ -217,7 +237,7 @@ class DellinClient
      *
      * @param \SergeevPasha\Dellin\DTO\Delivery $delivery
      *
-     * @return array<mixed>
+     * @return array
      */
     public function getPrice(Delivery $delivery): array
     {
@@ -233,12 +253,15 @@ class DellinClient
         if ($delivery->acDocs) {
             $deliveryRequest['accompanyingDocuments'] = $builder->buildAcDocs($delivery->acDocs);
         }
-        $members = [];
         if ($delivery->requester) {
             $members = [
                 'members' => [
                     'requester' => $builder->buildRequester($delivery->requester),
                 ]
+            ];
+        } else {
+            $members = [
+                'members' => []
             ];
         }
         $cargo   = $builder->buildCargo($delivery->cargo);
@@ -247,7 +270,6 @@ class DellinClient
             [
                 'sessionID' => $delivery->session,
                 'delivery'  => $deliveryRequest,
-                'members'   => $members,
                 'cargo'     => $cargo,
                 'payment'   => $payment,
             ],

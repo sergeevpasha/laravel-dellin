@@ -38,7 +38,7 @@ class DellinServiceProvider extends ServiceProvider
             ], 'config');
         }
     }
-    
+
     /**
      * Register routes
      *
@@ -50,11 +50,11 @@ class DellinServiceProvider extends ServiceProvider
             $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         });
     }
-    
+
     /**
      * Routes Configuration
      *
-     * @return array<mixed>
+     * @return array
      */
     protected function routeConfiguration(): array
     {

@@ -20,7 +20,7 @@ class RequestBuilder
      * Build Delivery Type request.
      *
      * @param  \SergeevPasha\Dellin\Enum\DeliveryType $deliveryType
-     * @return array<mixed>
+     * @return array
      */
     public function buildDeliveryType(DeliveryType $deliveryType): array
     {
@@ -33,7 +33,7 @@ class RequestBuilder
      * Build Arrival request.
      *
      * @param \SergeevPasha\Dellin\DTO\ArrivalData $arrival
-     * @return array<mixed>
+     * @return array
      */
     public function buildArrival(ArrivalData $arrival): array
     {
@@ -44,7 +44,7 @@ class RequestBuilder
      * Build Derival request.
      *
      * @param \SergeevPasha\Dellin\DTO\DerivalData $derival
-     * @return array<mixed>
+     * @return array
      */
     public function buildDerival(DerivalData $derival): array
     {
@@ -57,7 +57,7 @@ class RequestBuilder
      * Build Arrival Derival common data.
      *
      * @param \SergeevPasha\Dellin\DTO\ArrivalData|\SergeevPasha\Dellin\DTO\DerivalData $arrivalDerival
-     * @return array<mixed>
+     * @return array
      */
     private function buildArrivalDerival($arrivalDerival): array
     {
@@ -95,7 +95,7 @@ class RequestBuilder
      * Build Arrival Derival Time.
      *
      * @param \SergeevPasha\Dellin\DTO\ArrivalData|\SergeevPasha\Dellin\DTO\DerivalData $arrivalDerival
-     * @return array<mixed>
+     * @return array
      */
     private function buildTime($arrivalDerival): array
     {
@@ -123,7 +123,7 @@ class RequestBuilder
      * Build Packages request.
      *
      * @param \SergeevPasha\Dellin\DTO\Collection\PackageCollection $packages
-     * @return array<mixed>
+     * @return array
      */
     public function buildPackages(PackageCollection $packages): array
     {
@@ -143,7 +143,7 @@ class RequestBuilder
      * Build AcDocs request.
      *
      * @param \SergeevPasha\Dellin\DTO\Collection\AcDocCollection $acDocs
-     * @return array<mixed>
+     * @return array
      */
     public function buildAcDocs(AcDocCollection $acDocs): array
     {
@@ -158,7 +158,7 @@ class RequestBuilder
      * Build Requesters request.
      *
      * @param \SergeevPasha\Dellin\DTO\Requester $requester
-     * @return array<mixed>
+     * @return array
      */
     public function buildRequester(Requester $requester): array
     {
@@ -172,7 +172,7 @@ class RequestBuilder
      * Build Cargo request.
      *
      * @param \SergeevPasha\Dellin\DTO\Cargo $cargo
-     * @return array<mixed>
+     * @return array
      */
     public function buildCargo(Cargo $cargo): array
     {
@@ -208,7 +208,7 @@ class RequestBuilder
      * Build Payment request.
      *
      * @param \SergeevPasha\Dellin\DTO\Payment $payment
-     * @return array<mixed>
+     * @return array
      */
     public function buildPayment(Payment $payment): array
     {

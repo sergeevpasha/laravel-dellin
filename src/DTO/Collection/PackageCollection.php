@@ -15,7 +15,7 @@ final class PackageCollection extends DataTransferObjectCollection
     }
 
     /**
-     * @param array<mixed> $data
+     * @param array $data
      *
      * @return self
      */

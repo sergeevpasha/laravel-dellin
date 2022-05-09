@@ -79,7 +79,7 @@ class DellinControllerTest extends TestCase
         $this->expectException(Exception::class);
         $this->controller->responseOrFail([], 'text');
     }
-    
+
     public function testQueryCity()
     {
         $request = new DellinQueryCityRequest([
@@ -156,7 +156,7 @@ class DellinControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $method);
     }
 
-    
+
     public function testCalculateDeliveryPriceFails()
     {
         $request = new DellinCalculatePriceRequest([

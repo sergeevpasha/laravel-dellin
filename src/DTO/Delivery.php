@@ -59,7 +59,7 @@ class Delivery extends DataTransferObject
     /**
      * From Array.
      *
-     * @param array<mixed> $data
+     * @param array $data
      *
      * @return self
      */
@@ -80,13 +80,12 @@ class Delivery extends DataTransferObject
                 'derival'      => DerivalData::fromArray($data),
                 'packages'     => isset($data['packages']) ? PackageCollection::fromArray($data) : null,
                 'acDocs'       => $acDocsCollection,
-                'requester'    => isset($data['requester_role']) && isset($data['requester_uid']) ? Requester::fromArray(
-                    (int) $data['requester_role'],
-                    $data['requester_uid']
-                ) : null,
+                'requester'    => isset($data['requester_role']) && isset($data['requester_uid']) ?
+                    Requester::fromArray((int) $data['requester_role'], $data['requester_uid']) :
+                    null,
                 'cargo'        => Cargo::fromArray($data),
                 'payment'      => Payment::fromArray($data),
-                'session'      => isset($data['session_id']) ? $data['session_id'] : null,
+                'session'      => $data['session_id'] ?? null,
             ]
         );
     }

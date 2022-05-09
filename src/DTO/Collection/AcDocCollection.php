@@ -9,7 +9,6 @@ use Spatie\DataTransferObject\DataTransferObjectCollection;
 
 final class AcDocCollection extends DataTransferObjectCollection
 {
-
     public function current(): AcDoc
     {
         return parent::current();

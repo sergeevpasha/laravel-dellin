@@ -29,7 +29,7 @@ class AuthDellinControllerTest extends TestCase
         $method = $class->__invoke();
         $this->assertInstanceOf(JsonResponse::class, $method);
     }
-    
+
     public function testInvokeAuthorizationFailsIfGotServerErrors()
     {
         $client = Mockery::mock(DellinClient::class);

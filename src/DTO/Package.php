@@ -21,15 +21,17 @@ class Package extends DataTransferObject
     /**
      * From Array.
      *
-     * @param array<mixed> $data
+     * @param array $data
      *
      * @return self
      */
     public static function fromArray(array $data): self
     {
-        return new self([
-            'uid'   => isset($data['uid']) ? $data['uid'] : null,
-            'count' => isset($data['count']) ? (int) $data['count'] : null,
-        ]);
+        return new self(
+            [
+                'uid'   => $data['uid'] ?? null,
+                'count' => isset($data['count']) ? (int) $data['count'] : null,
+            ]
+        );
     }
 }

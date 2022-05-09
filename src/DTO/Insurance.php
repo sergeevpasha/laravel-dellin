@@ -21,7 +21,7 @@ class Insurance extends DataTransferObject
     /**
      * From Array.
      *
-     * @param array<mixed> $data
+     * @param array $data
      *
      * @return self
      */

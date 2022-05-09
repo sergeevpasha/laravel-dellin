@@ -42,7 +42,7 @@ class EnumControllerTest extends TestCase
             'Expected and actual data are not canonically equals'
         );
     }
-    
+
     public function testPaymentTypes()
     {
         $method = $this->controller->paymentTypes();
@@ -53,7 +53,7 @@ class EnumControllerTest extends TestCase
             'Expected and actual data are not canonically equals'
         );
     }
-    
+
     public function testRequesterRoles()
     {
         $method = $this->controller->requesterRoles();
@@ -64,7 +64,7 @@ class EnumControllerTest extends TestCase
             'Expected and actual data are not canonically equals'
         );
     }
-    
+
     public function testShippingTypes()
     {
         $method = $this->controller->shippingTypes();

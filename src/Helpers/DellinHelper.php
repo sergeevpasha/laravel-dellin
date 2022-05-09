@@ -6,12 +6,11 @@ namespace SergeevPasha\Dellin\Helpers;
 
 class DellinHelper
 {
-
     /**
      * Remove null values from an array recursively
      *
-     * @param  array<mixed> $haystack
-     * @return array<mixed>
+     * @param  array $haystack
+     * @return array
      */
     public static function removeNullValues(array $haystack): array
     {
