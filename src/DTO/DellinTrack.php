@@ -10,9 +10,9 @@ use Spatie\DataTransferObject\DataTransferObject;
 class DellinTrack extends DataTransferObject
 {
     /**
-     * @var string
+     * @var string|null
      */
-    public string $status;
+    public ?string $status;
 
     /**
      * @var float
@@ -38,7 +38,10 @@ class DellinTrack extends DataTransferObject
      */
     public static function fromArray(array $data): self
     {
-        $price = 0;
+        $price       = 0;
+        $derivalDate = null;
+        $arrivalDate = null;
+
         if (isset($data['documents'])) {
             $index = array_search('shipping', array_column($data['documents'], 'document_type'));
             if ($index !== false) {
@@ -46,16 +49,24 @@ class DellinTrack extends DataTransferObject
             }
         }
 
+        if (isset($data['ordered_at'])) {
+            $derivalDate = Carbon::parse($data['ordered_at']);
+        } elseif (isset($data['order_dates']['derrival_from_osp_sender'])) {
+            $derivalDate = Carbon::parse($data['order_dates']['derrival_from_osp_sender']);
+        }
+
+        if (isset($data['arrival_date'])) {
+            $arrivalDate = Carbon::parse($data['arrival_date']);
+        } elseif (isset($data['order_dates']['arrival_to_osp_receiver'])) {
+            $arrivalDate = Carbon::parse($data['order_dates']['arrival_to_osp_receiver']);
+        }
+
         return new self(
             [
-                'status'      => $data['state_name'] ?? '',
+                'status'      => $data['state_name'] ?? null,
                 'price'       => (float) $price,
-                'startDate'   => isset($data['order_dates']['derrival_from_osp_sender']) ?
-                    Carbon::parse($data['order_dates']['derrival_from_osp_sender']) :
-                    null,
-                'receiveDate' => isset($data['order_dates']['arrival_to_osp_receiver']) ?
-                    Carbon::parse($data['order_dates']['arrival_to_osp_receiver']) :
-                    null,
+                'startDate'   => $derivalDate,
+                'receiveDate' => $arrivalDate,
             ]
         );
     }
