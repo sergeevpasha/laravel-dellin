@@ -15,14 +15,19 @@ class DellinTrack extends DataTransferObject
     public string $status;
 
     /**
-     * @var \Carbon\Carbon
+     * @var float
      */
-    public Carbon $startDate;
+    public float $price;
 
     /**
-     * @var \Carbon\Carbon
+     * @var \Carbon\Carbon|null
      */
-    public Carbon $receiveDate;
+    public ?Carbon $startDate;
+
+    /**
+     * @var \Carbon\Carbon|null
+     */
+    public ?Carbon $receiveDate;
 
     /**
      * From Array.
@@ -33,10 +38,19 @@ class DellinTrack extends DataTransferObject
      */
     public static function fromArray(array $data): self
     {
+        $price = 0;
+        if (isset($data['documents'])) {
+            $index = array_search('shipping', array_column($data['documents'], 'document_type'));
+            if ($index !== false) {
+                $price = isset($data['documents'][$index]['total_sum']) ?? 0;
+            }
+        }
+
         return new self(
             [
                 'status'      => $data['state_name'] ?? '',
-                'start_date'  => isset($data['order_dates']['derrival_from_osp_sender']) ?
+                'price'       => (float) $price,
+                'startDate'   => isset($data['order_dates']['derrival_from_osp_sender']) ?
                     Carbon::parse($data['order_dates']['derrival_from_osp_sender']) :
                     null,
                 'receiveDate' => isset($data['order_dates']['arrival_to_osp_receiver']) ?

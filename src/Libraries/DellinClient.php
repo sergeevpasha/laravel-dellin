@@ -56,6 +56,7 @@ class DellinClient
             );
             $data    = array_merge($data, $session);
         }
+
         return $data;
     }
 
