@@ -42,7 +42,7 @@ class DellinTrack extends DataTransferObject
         if (isset($data['documents'])) {
             $index = array_search('shipping', array_column($data['documents'], 'document_type'));
             if ($index !== false) {
-                $price = isset($data['documents'][$index]['total_sum']) ?? 0;
+                $price = $data['documents'][$index]['total_sum'] ?? 0;
             }
         }
 
