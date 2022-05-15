@@ -87,6 +87,25 @@ class DellinClient
     }
 
     /**
+     * Find track by number
+     *
+     * @param string $trackNumber
+     *
+     * @return \SergeevPasha\Dellin\DTO\DellinTrack
+     */
+    public function findByTrackNumber(string $trackNumber): DellinTrack
+    {
+        $data = $this->request(
+            'v2/public/tracker',
+            [
+                'docid' => $trackNumber,
+            ]
+        );
+
+        return DellinTrack::fromArray($data);
+    }
+
+    /**
      * Get Dellin cities CSV File path.
      *
      * @return string|null
@@ -134,25 +153,6 @@ class DellinClient
                 'q' => $query,
             ]
         );
-    }
-
-    /**
-     * Find track by number
-     *
-     * @param string $trackNumber
-     *
-     * @return \SergeevPasha\Dellin\DTO\DellinTrack
-     */
-    public function findByTrackNumber(string $trackNumber): DellinTrack
-    {
-        $data = $this->request(
-            'v2/public/tracker',
-            [
-                'docid' => $trackNumber,
-            ]
-        );
-
-        return DellinTrack::fromArray($data);
     }
 
     /**

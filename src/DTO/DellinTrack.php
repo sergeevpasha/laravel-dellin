@@ -20,6 +20,11 @@ class DellinTrack extends DataTransferObject
     public float $price;
 
     /**
+     * @var string
+     */
+    public string $link;
+
+    /**
      * @var \Carbon\Carbon|null
      */
     public ?Carbon $startDate;
@@ -41,13 +46,20 @@ class DellinTrack extends DataTransferObject
         $price       = 0;
         $derivalDate = null;
         $arrivalDate = null;
+        $documentId  = null;
 
         if (isset($data['documents'])) {
             $index = array_search('shipping', array_column($data['documents'], 'document_type'));
             if ($index !== false) {
                 $price = $data['documents'][$index]['total_sum'] ?? 0;
             }
+            $requestIndex = array_search('request', array_column($data['documents'], 'document_type'));
+            if ($requestIndex !== false) {
+                $documentId = $data['documents'][$requestIndex]['document_id'] ?? null;
+            }
         }
+
+        $link = $documentId ? 'https://www.dellin.ru/tracker/orders/' . $documentId . '/' : '';
 
         if (isset($data['ordered_at'])) {
             $derivalDate = Carbon::parse($data['ordered_at']);
@@ -65,6 +77,7 @@ class DellinTrack extends DataTransferObject
             [
                 'status'      => $data['state_name'] ?? null,
                 'price'       => (float) $price,
+                'link'        => $link,
                 'startDate'   => $derivalDate,
                 'receiveDate' => $arrivalDate,
             ]

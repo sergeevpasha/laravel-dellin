@@ -12,10 +12,8 @@ use SergeevPasha\Dellin\Libraries\DellinClient;
 use SergeevPasha\Dellin\Http\Requests\DellinTerminalRequest;
 use SergeevPasha\Dellin\Http\Requests\DellinQueryCityRequest;
 use SergeevPasha\Dellin\Http\Requests\DellinQueryStreetRequest;
-use SergeevPasha\DPD\Http\Requests\DPDFindByTrackNumberRequest;
 use SergeevPasha\Dellin\Http\Requests\DellinCalculatePriceRequest;
 use SergeevPasha\Dellin\Http\Requests\DellinCounterpartiesRequest;
-use SergeevPasha\DPD\Http\Requests\DellinFindByTrackNumberRequest;
 
 class DellinController
 {
@@ -32,10 +30,25 @@ class DellinController
     }
 
     /**
+     * Query City.
+     *
+     * @param \SergeevPasha\Dellin\Http\Requests\DellinQueryCityRequest $request
+     *
+     * @throws \Exception
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function queryCity(DellinQueryCityRequest $request): JsonResponse
+    {
+        $data     = $this->client->findCity($request->query('query'));
+        $response = $this->responseOrFail($data, 'cities');
+        return response()->json($response);
+    }
+
+    /**
      * Check if required key is isset and fail if not
      *
-     * @param array $data
-     * @param string|null  $key
+     * @param array       $data
+     * @param string|null $key
      *
      * @throws \Exception
      * @return array
@@ -52,21 +65,6 @@ class DellinController
             $response['data'] = $data;
         }
         return $response;
-    }
-
-    /**
-     * Query City.
-     *
-     * @param \SergeevPasha\Dellin\Http\Requests\DellinQueryCityRequest $request
-     *
-     * @throws \Exception
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function queryCity(DellinQueryCityRequest $request): JsonResponse
-    {
-        $data     = $this->client->findCity($request->query('query'));
-        $response = $this->responseOrFail($data, 'cities');
-        return response()->json($response);
     }
 
     /**
