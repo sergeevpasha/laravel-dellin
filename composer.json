@@ -10,17 +10,17 @@
     "authors": [
         {
             "name": "Sergeev Pavel",
-            "email": "pasha_sergeev@live.ru",
+            "email": "sergeevpasha90@gmail.com",
             "homepage": "https://github.com/sergeevpasha"
         }
     ],
     "minimum-stability": "stable",
     "require": {
         "php": "^8.0",
-        "laravel/framework": "^8.27.0",
+        "laravel/framework": "^8.40.0 || ^9.0.0",
         "guzzlehttp/guzzle": "^7.0",
         "bensampo/laravel-enum": "^3.0",
-        "spatie/data-transfer-object": "^2.5",
+        "spatie/data-transfer-object": "^3.7",
         "ext-soap": "*",
         "ext-json": "*"
     },
