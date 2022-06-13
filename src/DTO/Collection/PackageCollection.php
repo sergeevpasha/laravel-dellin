@@ -4,15 +4,11 @@ declare(strict_types=1);
 
 namespace SergeevPasha\Dellin\DTO\Collection;
 
+use Illuminate\Support\Collection;
 use SergeevPasha\Dellin\DTO\Package;
-use Spatie\DataTransferObject\DataTransferObjectCollection;
 
-final class PackageCollection extends DataTransferObjectCollection
+class PackageCollection extends Collection
 {
-    public function current(): Package
-    {
-        return parent::current();
-    }
 
     /**
      * @param array $data
@@ -24,5 +20,10 @@ final class PackageCollection extends DataTransferObjectCollection
         return new static(
             array_map(fn($item) => Package::fromArray($item), $data['packages'])
         );
+    }
+
+    public function offsetGet($key): Package
+    {
+        return parent::offsetGet($key);
     }
 }

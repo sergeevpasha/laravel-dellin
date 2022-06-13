@@ -5,23 +5,24 @@ declare(strict_types=1);
 namespace SergeevPasha\Dellin\DTO\Collection;
 
 use SergeevPasha\Dellin\DTO\AcDoc;
-use Spatie\DataTransferObject\DataTransferObjectCollection;
+use Illuminate\Support\Collection;
 
-final class AcDocCollection extends DataTransferObjectCollection
+class AcDocCollection extends Collection
 {
-    public function current(): AcDoc
-    {
-        return parent::current();
-    }
-
     /**
-     * Create AcDoc Collection fro mAcDoc array
+     * Create AcDoc Collection from AcDoc array
      *
-     * @param  AcDoc[] $data
+     * @param AcDoc[] $data
+     *
      * @return self
      */
     public static function create(array $data): self
     {
         return new static(array_map(fn(AcDoc $item) => $item, $data));
+    }
+
+    public function offsetGet($key): AcDoc
+    {
+        return parent::offsetGet($key);
     }
 }
