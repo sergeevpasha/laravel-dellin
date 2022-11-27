@@ -39,6 +39,7 @@ class DellinTrack extends DataTransferObject
      *
      * @param array $data
      *
+     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      * @return self
      */
     public static function fromArray(array $data): self
@@ -46,20 +47,16 @@ class DellinTrack extends DataTransferObject
         $price       = 0;
         $derivalDate = null;
         $arrivalDate = null;
-        $documentId  = null;
+        $orderId  = $data['order_id'] ?? null;
 
         if (isset($data['documents'])) {
             $index = array_search('shipping', array_column($data['documents'], 'document_type'));
             if ($index !== false) {
                 $price = $data['documents'][$index]['total_sum'] ?? 0;
             }
-            $requestIndex = array_search('request', array_column($data['documents'], 'document_type'));
-            if ($requestIndex !== false) {
-                $documentId = $data['documents'][$requestIndex]['document_id'] ?? null;
-            }
         }
 
-        $link = $documentId ? 'https://www.dellin.ru/tracker/orders/' . $documentId . '/' : '';
+        $link = $orderId ? 'https://www.dellin.ru/tracker/orders/' . $orderId . '/' : '';
 
         if (isset($data['ordered_at'])) {
             $derivalDate = Carbon::parse($data['ordered_at']);
