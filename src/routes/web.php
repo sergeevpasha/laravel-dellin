@@ -19,6 +19,8 @@ Route::get('/services', [DellinController::class, 'getSpecialRequirements'])
     ->name('dellin.services');
 Route::get('/counterparties', [DellinController::class, 'getCounterparties'])
     ->name('dellin.counterparties');
+Route::get('/history', [DellinController::class, 'orderHistory'])
+    ->name('dellin.history');
 Route::post('/calculate', [DellinController::class, 'calculateDeliveryPrice'])
     ->name('dellin.calculate');
 

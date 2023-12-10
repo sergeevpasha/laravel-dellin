@@ -215,6 +215,30 @@ class DellinClient
     }
 
     /**
+     * Get Orders History.
+     *
+     * @param array $ordersIds
+     * @return array
+     */
+    public function getOrdersHistory(array $ordersIds): array
+    {
+        return $this->request('v3/orders/statuses_history', [
+            'docIds' => $ordersIds
+        ]);
+    }
+
+    /**
+     * Get Order History.
+     *
+     * @param string $orderId
+     * @return array
+     */
+    public function getOrderHistory(string $orderId): array
+    {
+        return $this->getOrdersHistory([$orderId]);
+    }
+
+    /**
      * Get Counterparties data
      *
      * @param string $session
