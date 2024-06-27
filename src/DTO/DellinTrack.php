@@ -44,30 +44,33 @@ class DellinTrack extends DataTransferObject
      */
     public static function fromArray(array $data): self
     {
+        if (is_array($data)) {
+            $data = reset($data);
+        }
         $price       = 0;
         $derivalDate = null;
         $arrivalDate = null;
-        $orderId  = $data['order_id'] ?? null;
+        $orderId  = $data['orderId'] ?? null;
 
         if (isset($data['documents'])) {
-            $index = array_search('shipping', array_column($data['documents'], 'document_type'));
+            $index = array_search('shipping', array_column($data['documents'], 'documentType'));
             if ($index !== false) {
-                $price = $data['documents'][$index]['total_sum'] ?? 0;
+                $price = $data['documents'][$index]['totalSum'] ?? 0;
             }
         }
 
         $link = $orderId ? 'https://www.dellin.ru/tracker/orders/' . $orderId . '/' : '';
 
-        if (isset($data['ordered_at'])) {
-            $derivalDate = Carbon::parse($data['ordered_at']);
-        } elseif (isset($data['order_dates']['derrival_from_osp_sender'])) {
-            $derivalDate = Carbon::parse($data['order_dates']['derrival_from_osp_sender']);
+        if (isset($data['orderedAt'])) {
+            $derivalDate = Carbon::parse($data['orderedAt']);
+        } elseif (isset($data['orderDates']['derrivalFromOspSender'])) {
+            $derivalDate = Carbon::parse($data['orderDates']['derrivalFromOspSender']);
         }
 
-        if (isset($data['arrival_date'])) {
-            $arrivalDate = Carbon::parse($data['arrival_date']);
-        } elseif (isset($data['order_dates']['arrival_to_osp_receiver'])) {
-            $arrivalDate = Carbon::parse($data['order_dates']['arrival_to_osp_receiver']);
+        if (isset($data['arrivalDate'])) {
+            $arrivalDate = Carbon::parse($data['arrivalDate']);
+        } elseif (isset($data['orderDates']['arrivalToOspReceiver'])) {
+            $arrivalDate = Carbon::parse($data['orderDates']['arrivalToOspReceiver']);
         }
 
         return new self(
