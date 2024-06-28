@@ -69,7 +69,7 @@ class DellinTrack extends DataTransferObject
 
         return new self(
             [
-                'status'      => $data['state_name'] ?? null,
+                'status'      => $data['stateName'] ?? null,
                 'price'       => (float) $price,
                 'link'        => $link,
                 'startDate'   => $derivalDate,
