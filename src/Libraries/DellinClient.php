@@ -96,7 +96,7 @@ class DellinClient
     public function findByTrackNumber(string $trackNumber): DellinTrack
     {
         $data = $this->request(
-            '/v3/orders.json',
+            'v3/orders',
             [
                 'docIds' => [$trackNumber],
             ]
