@@ -47,28 +47,22 @@ class DellinTrack extends DataTransferObject
         if (is_array($data)) {
             $data = reset($data);
         }
-        $price       = 0;
         $derivalDate = null;
         $arrivalDate = null;
         $orderId  = $data['orderId'] ?? null;
+        $price = $data['totalSum'] ?? 0;
 
-        if (isset($data['documents'])) {
-            $index = array_search('shipping', array_column($data['documents'], 'documentType'));
-            if ($index !== false) {
-                $price = $data['documents'][$index]['totalSum'] ?? 0;
-            }
-        }
 
         $link = $orderId ? 'https://www.dellin.ru/tracker/orders/' . $orderId . '/' : '';
 
-        if (isset($data['orderedAt'])) {
-            $derivalDate = Carbon::parse($data['orderedAt']);
+        if (isset($data['orderDate'])) {
+            $derivalDate = Carbon::parse($data['orderDate']);
         } elseif (isset($data['orderDates']['derrivalFromOspSender'])) {
             $derivalDate = Carbon::parse($data['orderDates']['derrivalFromOspSender']);
         }
 
-        if (isset($data['arrivalDate'])) {
-            $arrivalDate = Carbon::parse($data['arrivalDate']);
+        if (isset($data['orderDates']['giveoutFromOspReceiver'])) {
+            $derivalDate = Carbon::parse($data['orderDates']['giveoutFromOspReceiver']);
         } elseif (isset($data['orderDates']['arrivalToOspReceiver'])) {
             $arrivalDate = Carbon::parse($data['orderDates']['arrivalToOspReceiver']);
         }
