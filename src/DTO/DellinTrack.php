@@ -48,7 +48,7 @@ class DellinTrack extends DataTransferObject
         Log::info('Input data: ' . print_r($data, true));
 
 
-//        $data = reset($data);
+        $data = $data[0];
 
         Log::info(print_r($data, true));
         $derivalDate = null;
