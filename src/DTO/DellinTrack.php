@@ -44,10 +44,12 @@ class DellinTrack extends DataTransferObject
      */
     public static function fromArray(array $data): self
     {
+        Log::info('Input data: ' . print_r($data, true));
+
         if (is_array($data)) {
             $data = reset($data);
         }
-        error_log(print_r($data, true));
+        Log::info(print_r($data, true));
         $derivalDate = null;
         $arrivalDate = null;
         $orderId  = $data['orderId'] ?? null;
