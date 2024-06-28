@@ -47,6 +47,7 @@ class DellinTrack extends DataTransferObject
         if (is_array($data)) {
             $data = reset($data);
         }
+        error_log(print_r($data, true));
         $derivalDate = null;
         $arrivalDate = null;
         $orderId  = $data['orderId'] ?? null;
