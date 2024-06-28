@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace SergeevPasha\Dellin\DTO;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 use Spatie\DataTransferObject\DataTransferObject;
 
 class DellinTrack extends DataTransferObject
