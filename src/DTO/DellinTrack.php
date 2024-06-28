@@ -66,7 +66,7 @@ class DellinTrack extends DataTransferObject
         }
 
         if (isset($data['orderDates']['giveoutFromOspReceiver'])) {
-            $derivalDate = Carbon::parse($data['orderDates']['giveoutFromOspReceiver']);
+            $arrivalDate = Carbon::parse($data['orderDates']['giveoutFromOspReceiver']);
         } elseif (isset($data['orderDates']['arrivalToOspReceiver'])) {
             $arrivalDate = Carbon::parse($data['orderDates']['arrivalToOspReceiver']);
         }
