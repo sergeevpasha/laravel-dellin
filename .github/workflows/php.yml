@@ -18,15 +18,15 @@ jobs:
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.2
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@2.28.0
+        uses: shivammathur/setup-php@2.30.2
         with:
           php-version: ${{ matrix.php }}
 
       - name: Cache dependencies
-        uses: actions/cache@v3.3.2
+        uses: actions/cache@v4.0.2
         with:
           path: ~/.composer/cache/files
           key: dependencies-laravel-${{ matrix.laravel }}-php-${{ matrix.php }}-composer-${{ hashFiles('composer.json') }}
