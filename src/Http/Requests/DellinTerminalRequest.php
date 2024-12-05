@@ -17,6 +17,7 @@ class DellinTerminalRequest extends FormRequest
     {
         return [
             'arrival' => ['required', 'boolean'],
+            'express' => ['sometimes','boolean'],
         ];
     }
 }
