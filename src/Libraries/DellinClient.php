@@ -177,21 +177,24 @@ class DellinClient
     /**
      * Get every terminal in the city.
      *
-     * @param int  $city
+     * @param int $city
      * @param bool $arrival
-     *
+     * @param bool|null $express
      * @return array
      */
-    public function getCityTerminals(int $city, bool $arrival = true): array
+    public function getCityTerminals(int $city, bool $arrival = true, ?bool $express = null): array
     {
         $direction = $arrival ? 'arrival' : 'derival';
-        return $this->request(
-            'v1/public/request_terminals',
-            [
-                'cityID'    => $city,
-                'direction' => $direction,
-            ]
-        );
+        $params = [
+            'cityID'    => $city,
+            'direction' => $direction,
+        ];
+
+        if (!is_null($express)) {
+            $params['express'] = $express;
+        }
+
+        return $this->request('v1/public/request_terminals', $params);
     }
 
     /**
