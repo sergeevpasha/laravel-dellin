@@ -79,7 +79,9 @@ class DellinController
      */
     public function getTerminals(int $city, DellinTerminalRequest $request): JsonResponse
     {
-        $data = $this->client->getCityTerminals($city, (bool) $request->query('arrival'));
+        $arrival = (bool) $request->query('arrival');
+        $express = $request->query('express') !== null ? (bool) $request->query('express') : null;
+        $data = $this->client->getCityTerminals($city, $arrival, $express);
         $response = $this->responseOrFail($data, 'terminals');
         return response()->json($response);
     }

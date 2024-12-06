@@ -190,7 +190,7 @@ class DellinClient
             'direction' => $direction,
         ];
 
-        if (!is_null($express)) {
+        if ($express !== null) {
             $params['express'] = $express;
         }
 
