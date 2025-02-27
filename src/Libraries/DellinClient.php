@@ -80,6 +80,7 @@ class DellinClient
             ],
             'json'        => $params,
             'http_errors' => false,
+            'decode_content' => false,
         ];
         $client           = new GuzzleClient();
         $response         = $client->$method($url, $options);
