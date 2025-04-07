@@ -35,6 +35,11 @@ class DellinTrack extends DataTransferObject
     public ?Carbon $receiveDate;
 
     /**
+     * @var \Carbon\Carbon|null
+     */
+    public ?Carbon $warehousing;
+
+    /**
      * From Array.
      *
      * @param array $data
@@ -65,6 +70,10 @@ class DellinTrack extends DataTransferObject
             $arrivalDate = Carbon::parse($data['orderDates']['arrivalToOspReceiver']);
         }
 
+        if (isset($data['orderDates']['warehousing'])) {
+            $warehousing = Carbon::parse($data['orderDates']['warehousing']);
+        }
+
         return new self(
             [
                 'status'      => $data['stateName'] ?? null,
@@ -72,6 +81,7 @@ class DellinTrack extends DataTransferObject
                 'link'        => $link,
                 'startDate'   => $derivalDate,
                 'receiveDate' => $arrivalDate,
+                'warehousing' => $warehousing
             ]
         );
     }
