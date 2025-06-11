@@ -40,13 +40,14 @@ class DellinTrack extends DataTransferObject
     public ?Carbon $warehousing;
 
     /**
-     * @var int
+     * @var int|null
      */
-    public int $derivalTerminalId;
+    public ?int $derivalTerminalId;
+
     /**
-     * @var int
+     * @var int|null
      */
-    public int $arrivalTerminalId;
+    public ?int $arrivalTerminalId;
 
     /**
      * From Array.
@@ -64,8 +65,8 @@ class DellinTrack extends DataTransferObject
         $warehousing = null;
         $orderId = $data['orderId'] ?? null;
         $price = $data['totalSum'] ?? 0;
-        $derivalTerminalId = (int)($data['derival']['terminalId'] ?? null);
-        $arrivalTerminalId = (int)($data['arrival']['terminalId'] ?? null);
+        $derivalTerminalId = $data['derival']['terminalId'] ?? null;
+        $arrivalTerminalId = $data['arrival']['terminalId'] ?? null;
 
 
         $link = $orderId ? 'https://www.dellin.ru/tracker/orders/' . $orderId . '/' : '';
