@@ -40,6 +40,14 @@ class DellinTrack extends DataTransferObject
     public ?Carbon $warehousing;
 
     /**
+     * @var int
+     */
+    public int $derivalTerminalId;
+    /**
+     * @var int
+     */
+    public int $arrivalTerminalId;
+    /**
      * From Array.
      *
      * @param array $data
@@ -49,12 +57,13 @@ class DellinTrack extends DataTransferObject
      */
     public static function fromArray(array $data): self
     {
-        $data = $data['orders'][0];
+        $data = $data['orders'][0] ?? [];
         $derivalDate = null;
         $arrivalDate = null;
         $warehousing = null;
         $orderId  = $data['orderId'] ?? null;
         $price = $data['totalSum'] ?? 0;
+        $derivalTerminalId = (int) ($data['sender']['terminalId'] ?? 0);
 
 
         $link = $orderId ? 'https://www.dellin.ru/tracker/orders/' . $orderId . '/' : '';
