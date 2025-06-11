@@ -52,6 +52,7 @@ class DellinTrack extends DataTransferObject
         $data = $data['orders'][0];
         $derivalDate = null;
         $arrivalDate = null;
+        $warehousing = null;
         $orderId  = $data['orderId'] ?? null;
         $price = $data['totalSum'] ?? 0;
 
