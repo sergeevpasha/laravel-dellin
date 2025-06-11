@@ -40,20 +40,33 @@ class DellinTrack extends DataTransferObject
     public ?Carbon $warehousing;
 
     /**
+     * @var int|null
+     */
+    public ?int $derivalTerminalId;
+
+    /**
+     * @var int|null
+     */
+    public ?int $arrivalTerminalId;
+
+    /**
      * From Array.
      *
      * @param array $data
      *
-     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      * @return self
+     * @throws \Spatie\DataTransferObject\Exceptions\UnknownProperties
      */
     public static function fromArray(array $data): self
     {
-        $data = $data['orders'][0];
+        $data = $data['orders'][0] ?? [];
         $derivalDate = null;
         $arrivalDate = null;
-        $orderId  = $data['orderId'] ?? null;
+        $warehousing = null;
+        $orderId = $data['orderId'] ?? null;
         $price = $data['totalSum'] ?? 0;
+        $derivalTerminalId = $data['derival']['terminalId'] ?? null;
+        $arrivalTerminalId = $data['arrival']['terminalId'] ?? null;
 
 
         $link = $orderId ? 'https://www.dellin.ru/tracker/orders/' . $orderId . '/' : '';
@@ -76,12 +89,14 @@ class DellinTrack extends DataTransferObject
 
         return new self(
             [
-                'status'      => $data['stateName'] ?? null,
-                'price'       => (float) $price,
-                'link'        => $link,
-                'startDate'   => $derivalDate,
-                'receiveDate' => $arrivalDate,
-                'warehousing' => $warehousing
+                'status'            => $data['stateName'] ?? null,
+                'price'             => (float)$price,
+                'link'              => $link,
+                'startDate'         => $derivalDate,
+                'receiveDate'       => $arrivalDate,
+                'warehousing'       => $warehousing,
+                'derivalTerminalId' => $derivalTerminalId,
+                'arrivalTerminalId' => $arrivalTerminalId,
             ]
         );
     }
