@@ -50,6 +50,16 @@ class DellinTrack extends DataTransferObject
     public ?int $arrivalTerminalId;
 
     /**
+     * @var bool
+     */
+    public bool $derivalIsTerminal;
+
+    /**
+     * @var bool
+     */
+    public bool $arrivalIsTerminal;
+
+    /**
      * From Array.
      *
      * @param array $data
@@ -68,6 +78,8 @@ class DellinTrack extends DataTransferObject
         $derivalTerminalId = $data['derival']['terminalId'] ?? null;
         $arrivalTerminalId = $data['arrival']['terminalId'] ?? null;
 
+        $derivalIsTerminal = !($data['orderedDeliveryFromAddress'] ?? false);
+        $arrivalIsTerminal = !($data['orderedDeliveryToAddress'] ?? false);
 
         $link = $orderId ? 'https://www.dellin.ru/tracker/orders/' . $orderId . '/' : '';
 
@@ -97,6 +109,8 @@ class DellinTrack extends DataTransferObject
                 'warehousing'       => $warehousing,
                 'derivalTerminalId' => $derivalTerminalId,
                 'arrivalTerminalId' => $arrivalTerminalId,
+                'derivalIsTerminal' => $derivalIsTerminal,
+                'arrivalIsTerminal' => $arrivalIsTerminal,
             ]
         );
     }
