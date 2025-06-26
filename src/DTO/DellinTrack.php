@@ -71,9 +71,7 @@ class DellinTrack extends DataTransferObject
 
         $link = $orderId ? 'https://www.dellin.ru/tracker/orders/' . $orderId . '/' : '';
 
-        if (isset($data['orderDate'])) {
-            $derivalDate = Carbon::parse($data['orderDate']);
-        } elseif (isset($data['orderDates']['derivalFromOspSender'])) {
+        if (isset($data['orderDates']['derivalFromOspSender'])) {
             $derivalDate = Carbon::parse($data['orderDates']['derivalFromOspSender']);
         }
 
