@@ -158,8 +158,14 @@ class DellinController
         $data = $this->client->getPrice(Delivery::fromArray($request->all()));
         if (array_key_exists('errors', $data)) {
             $messages = [];
-            foreach ($data['errors'] as $error) {
-                $messages[$error['code']] = implode(',', $error['fields']) . ' - ' . trim($error['detail'], '.') . '.';
+            // API Dellin возвращает ошибки неоднородно: fields и detail есть не
+            // всегда, а обращение к отсутствующему ключу превращало ошибку
+            // валидации в 500.
+            foreach ($data['errors'] as $index => $error) {
+                $fields = implode(',', $error['fields'] ?? []);
+                $detail = trim($error['detail'] ?? '', '.');
+                $message = trim($fields . ($fields !== '' && $detail !== '' ? ' - ' : '') . $detail);
+                $messages[$error['code'] ?? $index] = $message !== '' ? $message . '.' : 'Unknown error.';
             }
             throw ValidationException::withMessages($messages);
         }
