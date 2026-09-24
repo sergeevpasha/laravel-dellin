@@ -6,6 +6,7 @@ namespace SergeevPasha\Dellin\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use SergeevPasha\Dellin\DTO\Delivery;
 use SergeevPasha\Dellin\Http\Requests\DellinCalculatePriceRequest;
@@ -125,6 +126,20 @@ class DellinController
     {
         $data = $this->client->getSpecialRequirements();
         $response = $this->responseOrFail($data, 'data');
+        return response()->json($response);
+    }
+
+    /**
+     * Get oversized cargo thresholds. They rarely change, so they are cached for a day.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function getOversizedThresholds(): JsonResponse
+    {
+        $response = Cache::remember('dellin_oversized_thresholds', now()->addDay(), function () {
+            return $this->responseOrFail($this->client->getOversizedThresholds(), 'data');
+        });
         return response()->json($response);
     }
 

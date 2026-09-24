@@ -17,6 +17,8 @@ Route::get('/packages', [DellinController::class, 'getAvailablePackages'])
     ->name('dellin.packages');
 Route::get('/services', [DellinController::class, 'getSpecialRequirements'])
     ->name('dellin.services');
+Route::get('/oversized-thresholds', [DellinController::class, 'getOversizedThresholds'])
+    ->name('dellin.oversized-thresholds');
 Route::get('/counterparties', [DellinController::class, 'getCounterparties'])
     ->name('dellin.counterparties');
 Route::get('/history', [DellinController::class, 'orderHistory'])

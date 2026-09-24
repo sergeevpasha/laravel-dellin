@@ -101,6 +101,7 @@ Now we can use these methods:
 <pre>
 $client->findCity(string $query)
 $client->findCityByCode(string $code) // a 25-digit code with a leading zero is sent as 24 digits
+$client->getOversizedThresholds() // per service kind; a place above any threshold is oversized
 $client->findCityStreet(int $city, string $query)
 $client->getCityTerminals(int $city, bool $arrival = true)
 $client->findByTrackNumber(string $trackNumber)

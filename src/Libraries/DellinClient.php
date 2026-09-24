@@ -380,6 +380,17 @@ class DellinClient
     }
 
     /**
+     * Get the dimensions and weight above which a cargo place is oversized, per service kind
+     * (auto, express, avia). A zero threshold means no limit.
+     *
+     * @return array
+     */
+    public function getOversizedThresholds(): array
+    {
+        return $this->request('v1/oversized_cargo_thresholds');
+    }
+
+    /**
      * Get Orders History.
      *
      * @param array $ordersIds

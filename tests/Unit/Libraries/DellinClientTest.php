@@ -265,6 +265,18 @@ class DellinClientTest extends TestCase
         $this->assertSame(110004, $data['errors'][0]['code']);
     }
 
+    public function testGetOversizedThresholdsReturnsThemPerServiceKind(): void
+    {
+        $auto = ['serviceKind' => 'auto', 'oversizedLength' => 3, 'oversizedWidth' => 3, 'oversizedHeight' => 3,
+            'oversizedWeight' => 800, 'oversizedVolume' => 0];
+        $this->queue(200, ['metadata' => ['status' => 200], 'data' => [$auto]]);
+
+        $data = $this->client->getOversizedThresholds();
+
+        $this->assertSame([$auto], $data['data']);
+        $this->assertStringEndsWith('v1/oversized_cargo_thresholds.json', (string) $this->history[0]['request']->getUri());
+    }
+
     public function testFindCityByCodeDropsLeadingZeroOfShortRegionCodes(): void
     {
         $this->queue(200, ['cities' => []]);
