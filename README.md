@@ -53,10 +53,15 @@ $sessionId = $client->getSession();
 $client->forgetSession();
 
 // Find a track by order/waybill number. Automatically includes session if available.
+// A cached session Dellin rejects (HTTP 401) is replaced by a fresh one and the request is retried once.
+// An order Dellin does not know (error 717001) comes back with status null and notFound = true.
 $track = $client->findByTrackNumber('61389220');
 
 // DellinTrack fields:
+// $track->notFound        — Dellin does not know the order (bool)
 // $track->status          — order status name (string|null)
+// $track->state           — order state code: inway, arrived, finished, declined... (string|null)
+// $track->declineReason   — why Dellin declined the order (string|null); isDeclined() checks the state
 // $track->link            — tracking URL (string)
 // $track->price           — total order cost (float)
 // $track->startDate       — dispatch date (Carbon|null)
@@ -67,7 +72,9 @@ $track = $client->findByTrackNumber('61389220');
 // $track->deliveryType    — DeliveryType enum key: AUTO|EXPRESS|AVIA|LETTER|SMALL (string|null)
 //                           Requires authenticated session to be populated.
 // $track->derivalIsTerminal / $track->arrivalIsTerminal — bool
-// $track->derivalCityId / $track->arrivalCityId         — int|null
+// $track->derivalCityCode / $track->arrivalCityCode     — settlement KLADR code (string|null)
+// $track->derivalCityId / $track->arrivalCityId         — city of the serving terminal in v3/public/terminals
+//                           (int|null), not a cityID of findCity()/findCityByCode()
 // $track->derivalCity / $track->arrivalCity             — string|null
 // $track->derivalTerminalId / $track->arrivalTerminalId — int|null
 // $track->derivalTerminalName / $track->arrivalTerminalName — string|null
@@ -93,6 +100,7 @@ $price = $client->getPrice(Delivery::fromArray([...]));
 Now we can use these methods:
 <pre>
 $client->findCity(string $query)
+$client->findCityByCode(string $code) // a 25-digit code with a leading zero is sent as 24 digits
 $client->findCityStreet(int $city, string $query)
 $client->getCityTerminals(int $city, bool $arrival = true)
 $client->findByTrackNumber(string $trackNumber)
@@ -101,6 +109,12 @@ $client->forgetSession()
 /* This one requires a Delivery Object, see next to see how to build it */
 $client->getPrice(Delivery $delivery)
 </pre>
+
+## Errors
+Requests use a 10 s connection timeout and a 30 s overall timeout. `SergeevPasha\Dellin\Exceptions\DellinApiException`
+is thrown on a transport error, HTTP 429 or 5xx, a body that is not JSON, and on HTTP 401 or any error except
+"order not found" from `findByTrackNumber()`. Other 4xx answers with a JSON body are returned as arrays, so calculator
+validation errors are still available as `{"errors":[...]}`.
 
 ## Delivery Object
 To build a Delivery object you will need to pass an array to fromArray() method just like that:<br>
