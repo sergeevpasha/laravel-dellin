@@ -6,6 +6,7 @@ namespace SergeevPasha\Dellin\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Validation\ValidationException;
 use SergeevPasha\Dellin\DTO\Delivery;
 use SergeevPasha\Dellin\Http\Requests\DellinCalculatePriceRequest;
@@ -59,7 +60,11 @@ class DellinController
         $response = [];
         if ($key) {
             if (!isset($data[$key])) {
-                throw new Exception('Missing required parameters or session ID is expired');
+                // Деловые отвечают 200 с errors, например на город без терминала или с устаревшим id
+                if (isset($data['errors'])) {
+                    throw ValidationException::withMessages($this->errorMessages($data['errors']));
+                }
+                throw new Exception("Dellin API response has no \"$key\"");
             }
             $response['data'] = $data[$key];
         } else {
@@ -129,6 +134,20 @@ class DellinController
     }
 
     /**
+     * Get oversized cargo thresholds. They rarely change, so they are cached for a day.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function getOversizedThresholds(): JsonResponse
+    {
+        $response = Cache::remember('dellin_oversized_thresholds', now()->addDay(), function () {
+            return $this->responseOrFail($this->client->getOversizedThresholds(), 'data');
+        });
+        return response()->json($response);
+    }
+
+    /**
      * Get Counterparties data
      *
      * @param \SergeevPasha\Dellin\Http\Requests\DellinCounterpartiesRequest $request
@@ -157,11 +176,7 @@ class DellinController
     {
         $data = $this->client->getPrice(Delivery::fromArray($request->all()));
         if (array_key_exists('errors', $data)) {
-            $messages = [];
-            foreach ($data['errors'] as $error) {
-                $messages[$error['code']] = implode(',', $error['fields']) . ' - ' . trim($error['detail'], '.') . '.';
-            }
-            throw ValidationException::withMessages($messages);
+            throw ValidationException::withMessages($this->errorMessages($data['errors']));
         }
         $response = $this->responseOrFail($data, 'data');
         return response()->json($response);
@@ -183,5 +198,34 @@ class DellinController
 
         $response = $this->responseOrFail($orderHistory, 'data');
         return response()->json($response['data']['statusHistory'][$data['order_id']]);
+    }
+
+    /**
+     * Ошибки Деловых сообщениями валидации. Формат неоднородный: строка, в v1 поле => текст
+     * (`{"cityid": "Объект не найден"}`), в v2 список с code, title, detail и fields, где
+     * любого из них может не быть.
+     *
+     * @param mixed $errors
+     *
+     * @return array<string|int, string>
+     */
+    private function errorMessages($errors): array
+    {
+        if (!is_array($errors)) {
+            $errors = ['dellin' => (string) $errors];
+        }
+        $messages = [];
+        foreach ($errors as $index => $error) {
+            if (is_array($error)) {
+                $fields = implode(',', array_filter((array) ($error['fields'] ?? []), 'is_string'));
+                $detail = trim((string) ($error['detail'] ?? $error['title'] ?? ''), '.');
+                $text = trim($fields . ($fields !== '' && $detail !== '' ? ' - ' : '') . $detail);
+                $index = $error['code'] ?? $index;
+            } else {
+                $text = trim((string) $error, '.');
+            }
+            $messages[$index] = 'Деловые Линии: ' . ($text !== '' ? $text : 'неизвестная ошибка') . '.';
+        }
+        return $messages;
     }
 }

@@ -98,6 +98,41 @@ class DellinControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $method);
     }
 
+    public function testGetTerminalsTurnsDellinErrorsIntoValidationErrors()
+    {
+        $client = Mockery::mock(DellinClient::class);
+        $client->shouldReceive('getCityTerminals')->andReturn(['errors' => ['cityid' => 'Объект не найден']]);
+        $this->app->instance(DellinClient::class, $client);
+        $controller = $this->app->make(DellinController::class);
+
+        try {
+            $controller->getTerminals(113454, new DellinTerminalRequest(['arrival' => '1']));
+            $this->fail('Dellin errors must not pass as terminals');
+        } catch (ValidationException $exception) {
+            $this->assertSame(['cityid' => ['Деловые Линии: Объект не найден.']], $exception->errors());
+        }
+    }
+
+    public function testResponseOrFailReadsEveryShapeOfDellinErrors()
+    {
+        $shapes = [
+            'string'  => [['errors' => 'Unauthorized'], ['dellin' => ['Деловые Линии: Unauthorized.']]],
+            'list v2' => [
+                ['errors' => [['code' => 717001, 'title' => 'Заказ не найден']]],
+                [717001 => ['Деловые Линии: Заказ не найден.']],
+            ],
+            'empty'   => [['errors' => [['code' => 1]]], [1 => ['Деловые Линии: неизвестная ошибка.']]],
+        ];
+        foreach ($shapes as $name => [$data, $expected]) {
+            try {
+                $this->controller->responseOrFail($data, 'terminals');
+                $this->fail("$name: no exception");
+            } catch (ValidationException $exception) {
+                $this->assertSame($expected, $exception->errors(), $name);
+            }
+        }
+    }
+
     public function testQueryStreet()
     {
         $request = new DellinQueryStreetRequest([
